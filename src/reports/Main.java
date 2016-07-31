@@ -17,7 +17,6 @@ import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.util.*;
@@ -35,13 +34,13 @@ public class Main extends JFrame {
 	JFrame frame = new JFrame();
 	JComboBox cbSelectTest;
 	
-	String patientID;
-	String patientName;
-	String consultantName;
-	String patientAge;
-	String patientSex;
-	Date date;
-	String testType;
+	static String patientID;
+	static String patientName;
+	static String consultantName;
+	static String patientAge;
+	static String patientSex;
+	static Date date;
+	static String testType;
 	
 
 	/**
@@ -117,7 +116,7 @@ public class Main extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 			if(	ValidateData()){				
-				
+				GetData();
 				frmDetail frame = new frmDetail();
 				frame.setVisible(true);				
 			}

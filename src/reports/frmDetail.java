@@ -1,16 +1,14 @@
 package reports;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.text.SimpleDateFormat;
+
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 
@@ -78,7 +76,7 @@ public class frmDetail extends JFrame {
 		label.setBounds(66, 58, 0, 0);
 		
 		txtID = new JTextField();
-		txtID.setBounds(85, 52, 86, 20);
+		txtID.setBounds(84, 58, 86, 20);
 		txtID.setEditable(false);
 		txtID.setColumns(10);
 		
@@ -135,5 +133,21 @@ public class frmDetail extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setBounds(42, 245, 313, 237);
 		contentPane.add(panel);
+		
+		SetPatientData();
 	}
+	
+		void SetPatientData(){
+		
+			
+			txtID.setText(Main.patientID);;
+			txtName.setText(Main.patientName);
+			txtConsultant.setText(Main.consultantName);;
+			txtAge.setText(Main.patientAge);
+			txtGender.setText(Main.patientSex);
+			
+			SimpleDateFormat formatter;
+			formatter = new SimpleDateFormat("dd/MM/yyyy");
+			txtDate.setText(formatter.format(Main.date));
+		}
 }
