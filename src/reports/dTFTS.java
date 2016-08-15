@@ -1,0 +1,312 @@
+package reports;
+
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.text.SimpleDateFormat;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class dTFTS extends JDialog {
+
+	private JPanel contentPane;
+	private JTextField txtID;
+	private JTextField txtName;
+	private JTextField txtConsultant;
+	private JTextField txtAge;
+	private JTextField txtGender;
+	private JTextField txtDate;
+	private JTextField txt1;
+	private JTextField txt2;
+	private JTextField txt3;
+
+	public dTFTS() {	
+	setTitle("Details");
+	setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	setBounds(100, 100, 400, 600);
+	contentPane = new JPanel();
+	contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+	setContentPane(contentPane);
+	
+	JLabel lblPatientData = new JLabel("Patient Data");
+	lblPatientData.setBounds(119, 16, 112, 25);
+	lblPatientData.setFont(new Font("Calibri Light", Font.PLAIN, 20));
+	
+	JLabel lblName = new JLabel("Name:");
+	lblName.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblName.setBounds(10, 96, 36, 14);
+	
+	JLabel lblId = new JLabel("ID:");
+	lblId.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblId.setBounds(10, 61, 20, 14);
+	
+	JLabel lblConsultant = new JLabel("Consultant:");
+	lblConsultant.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblConsultant.setBounds(10, 130, 61, 14);
+	
+	JLabel lblAge = new JLabel("Age:");
+	lblAge.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblAge.setBounds(220, 61, 31, 14);
+	
+	JLabel lblGender = new JLabel("Gender:");
+	lblGender.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblGender.setBounds(220, 96, 44, 14);
+	
+	JLabel lblDate = new JLabel("Date:");
+	lblDate.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+	lblDate.setBounds(220, 130, 44, 14);
+	
+	JLabel label = new JLabel("");
+	label.setBounds(66, 58, 0, 0);
+	
+	txtID = new JTextField();
+	txtID.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtID.setBounds(81, 58, 119, 20);
+	txtID.setEditable(false);
+	txtID.setColumns(10);
+	
+	txtName = new JTextField();
+	txtName.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtName.setBounds(81, 93, 118, 20);
+	txtName.setEditable(false);
+	txtName.setColumns(10);
+	
+	txtConsultant = new JTextField();
+	txtConsultant.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtConsultant.setBounds(81, 127, 119, 20);
+	txtConsultant.setEditable(false);
+	txtConsultant.setColumns(10);
+	
+	txtAge = new JTextField();
+	txtAge.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtAge.setBounds(274, 58, 86, 20);
+	txtAge.setEditable(false);
+	txtAge.setColumns(10);
+	
+	txtGender = new JTextField();
+	txtGender.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtGender.setBounds(274, 93, 86, 20);
+	txtGender.setEditable(false);
+	txtGender.setColumns(10);
+	
+	txtDate = new JTextField();
+	txtDate.setFont(new Font("Calibri", Font.PLAIN, 11));
+	txtDate.setBounds(274, 127, 86, 20);
+	txtDate.setEditable(false);
+	txtDate.setColumns(10);
+	contentPane.setLayout(null);
+	
+	JSeparator separator = new JSeparator();
+	separator.setBounds(10, 170, 350, 0);
+	contentPane.add(separator);
+	contentPane.add(lblPatientData);
+	contentPane.add(lblConsultant);
+	contentPane.add(txtConsultant);
+	contentPane.add(lblId);
+	contentPane.add(label);
+	contentPane.add(lblName);
+	contentPane.add(txtID);
+	contentPane.add(txtName);
+	contentPane.add(lblDate);
+	contentPane.add(txtDate);
+	contentPane.add(lblGender);
+	contentPane.add(txtGender);
+	contentPane.add(lblAge);
+	contentPane.add(txtAge);
+	
+	JLabel lblTestDetails = new JLabel("Test Details");
+	lblTestDetails.setFont(new Font("Calibri Light", Font.PLAIN, 20));
+	lblTestDetails.setBounds(119, 181, 116, 25);
+	contentPane.add(lblTestDetails);
+	
+	JButton btnPrint = new JButton("Print");
+	JButton btnCancel = new JButton("Cancel");
+	
+	btnPrint.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			
+			btnPrint.setVisible(false);
+			btnCancel.setVisible(false);
+			txt1.setEditable(false);
+			txt2.setEditable(false);
+			txt3.setEditable(false);
+			printComponenet();		
+			dispose();
+		}
+	});
+	btnPrint.setBounds(191, 513, 89, 23);
+	contentPane.add(btnPrint);
+	
+	btnCancel.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			dispose();
+		}
+	});
+	btnCancel.setBounds(285, 513, 89, 23);
+	contentPane.add(btnCancel);
+	
+			
+	SetPatientData();
+	SetPanels();
+	}
+	
+	void SetPatientData(){
+		
+		txtID.setText(String.valueOf(Patient.GetPatientID()));						
+		txtName.setText(Patient.GetPatientName());
+		txtConsultant.setText(Patient.GetConsultantName());
+		txtAge.setText(String.valueOf(Patient.GetPatientAge()));			
+		txtGender.setText(Patient.GetPatientGender());			
+		SimpleDateFormat formatter;
+		formatter = new SimpleDateFormat("dd/MM/yyyy");
+		txtDate.setText(formatter.format(Patient.GetCheckupDate()));
+	}
+	
+	void SetPanels(){
+		
+		JPanel pnlCBC = new JPanel();
+		pnlCBC.setBounds(10, 208, 364, 278);
+		contentPane.add(pnlCBC);
+		
+		JPanel pnlCalcium = new JPanel();
+		contentPane.add(pnlCalcium);
+		
+		JLabel lblCalcium = new JLabel("calcium");
+		pnlCalcium.add(lblCalcium);
+		pnlCBC.setLayout(null);
+		
+		JLabel CBC = new JLabel("T3");
+		CBC.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		CBC.setBounds(10, 65, 46, 14);
+		pnlCBC.add(CBC);			
+		
+		txt1 = new JTextField();
+		txt1.setFont(new Font("Calibri", Font.PLAIN, 11));
+		txt1.setBounds(90, 62, 68, 20);
+		pnlCBC.add(txt1);
+		txt1.setColumns(10);
+		
+		JLabel lblNewLabel = new JLabel("0.8 \u2013 2.33");
+		lblNewLabel.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel.setBounds(245, 65, 105, 14);
+		pnlCBC.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Test");
+		lblNewLabel_1.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_1.setBounds(10, 18, 46, 14);
+		pnlCBC.add(lblNewLabel_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Result");
+		lblNewLabel_2.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_2.setBounds(90, 18, 46, 14);
+		pnlCBC.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("N.Range");
+		lblNewLabel_3.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_3.setBounds(245, 18, 94, 14);
+		pnlCBC.add(lblNewLabel_3);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 43, 344, 11);
+		pnlCBC.add(separator);
+		
+		JLabel lblNewLabel_4 = new JLabel("Unit");
+		lblNewLabel_4.setBounds(189, 17, 46, 14);
+		pnlCBC.add(lblNewLabel_4);
+		
+		JLabel lblNewLabel_5 = new JLabel(".nmol/l");
+		lblNewLabel_5.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_5.setBounds(189, 64, 46, 14);
+		pnlCBC.add(lblNewLabel_5);
+		
+		JLabel lblNewLabel_6 = new JLabel("T4");
+		lblNewLabel_6.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_6.setBounds(10, 103, 46, 14);
+		pnlCBC.add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_7 = new JLabel("TSH");
+		lblNewLabel_7.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_7.setBounds(10, 148, 46, 14);
+		pnlCBC.add(lblNewLabel_7);
+		
+		txt2 = new JTextField();
+		txt2.setFont(new Font("Calibri", Font.PLAIN, 11));
+		txt2.setBounds(90, 100, 68, 20);
+		pnlCBC.add(txt2);
+		txt2.setColumns(10);
+		
+		txt3 = new JTextField();
+		txt3.setFont(new Font("Calibri", Font.PLAIN, 11));
+		txt3.setBounds(90, 145, 68, 20);
+		pnlCBC.add(txt3);
+		txt3.setColumns(10);
+		
+		JLabel lblNewLabel_8 = new JLabel("nmol / L");
+		lblNewLabel_8.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_8.setBounds(189, 103, 46, 14);
+		pnlCBC.add(lblNewLabel_8);
+		
+		JLabel lblNewLabel_9 = new JLabel(" ulU/ml");
+		lblNewLabel_9.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_9.setBounds(189, 148, 46, 14);
+		pnlCBC.add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_10 = new JLabel("60 \u2013 120");
+		lblNewLabel_10.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_10.setBounds(245, 103, 65, 14);
+		pnlCBC.add(lblNewLabel_10);
+		
+		JLabel lblNewLabel_11 = new JLabel("Euthyroid    0.25 \u2013 5.0\r\n");
+		lblNewLabel_11.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_11.setBounds(245, 148, 119, 14);
+		pnlCBC.add(lblNewLabel_11);
+		
+		JLabel lblNewLabel_12 = new JLabel("Hperthyroid   < 0.15");
+		lblNewLabel_12.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_12.setBounds(245, 176, 105, 14);
+		pnlCBC.add(lblNewLabel_12);
+		
+		JLabel lblNewLabel_13 = new JLabel("Hypothroid    > 7.0");
+		lblNewLabel_13.setFont(new Font("Calibri Light", Font.PLAIN, 11));
+		lblNewLabel_13.setBounds(245, 205, 109, 14);
+		pnlCBC.add(lblNewLabel_13);
+	}
+
+	public void printComponenet(){
+		  PrinterJob pj = PrinterJob.getPrinterJob();
+		  pj.setJobName(" Print Component ");
+
+		  pj.setPrintable (new Printable() {    
+		    public int print(Graphics pg, PageFormat pf, int pageNum){
+		      if (pageNum > 0){
+		      return Printable.NO_SUCH_PAGE;
+		      }
+
+		      Graphics2D g2 = (Graphics2D) pg;
+		      g2.translate(pf.getImageableX(), pf.getImageableY());
+		      contentPane.paint(g2);
+		      return Printable.PAGE_EXISTS;
+		    }
+		  });
+		  if (pj.printDialog() == false)
+		  return;
+
+		  try {
+		        pj.print();
+		  } catch (PrinterException ex) {
+		        // handle exception
+		  }
+		}
+}
